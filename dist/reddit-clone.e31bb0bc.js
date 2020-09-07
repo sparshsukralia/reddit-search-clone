@@ -164,7 +164,7 @@ searchForm.addEventListener("submit", function (e) {
     var output = "<div class='card-columns'>"; // Loop through the reddit posts
 
     results.forEach(function (post) {
-      output += "<div class=\"card\">\n  <img src=\"...\" class=\"card-img-top\" alt=\"...\">\n  <div class=\"card-body\">\n    <h5 class=\"card-title\">Card title</h5>\n    <p class=\"card-text\">Some quick example text to build on the card title and make up the bulk of the card's content.</p>\n    <a href=\"#\" class=\"btn btn-primary\">Go somewhere</a>\n  </div>\n</div>";
+      output += "<div class=\"card\">\n  <img src=\"...\" class=\"card-img-top\" alt=\"...\">\n  <div class=\"card-body\">\n    <h5 class=\"card-title\">".concat(post.title, "</h5>\n    <p class=\"card-text\">").concat(truncateText(post.selftext, 100) + "...", "</p>\n    <a href=\"#\" class=\"btn btn-primary\">Go somewhere</a>\n  </div>\n</div>");
     });
     output += "</div>";
     document.getElementById("results").innerHTML = output;
@@ -191,6 +191,13 @@ function showMessage(message, className) {
   setTimeout(function () {
     document.querySelector(".alert").remove();
   }, 3000);
+} // Truncate text
+
+
+function truncateText(text, limit) {
+  var shortened = text.indexOf(" ", limit);
+  if (shortened == -1) return text;
+  return text.substring(0, shortened);
 }
 },{"./redditapi":"redditapi.js"}],"../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
