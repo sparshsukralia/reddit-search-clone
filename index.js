@@ -23,12 +23,20 @@ searchForm.addEventListener("submit", (e) => {
     let output = "<div class='card-columns'>";
     // Loop through the reddit posts
     results.forEach((post) => {
+      // Check if image is availabe
+      let image = post.preview
+        ? post.preview.images[0].source.url
+        : "https://lh3.googleusercontent.com/8Vw-7MAm558750a4M55fiOlUf7lP2cYnFuqSWynrygIiyEEiQQDa_xxHKYOX83L0UD2T";
+
       output += `<div class="card">
-  <img src="..." class="card-img-top" alt="...">
+  <img src="${image}" class="card-img-top" alt="...">
   <div class="card-body">
     <h5 class="card-title">${post.title}</h5>
     <p class="card-text">${truncateText(post.selftext, 100) + "..."}</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+    <a href="${post.url}" target="_blank" class="btn btn-primary">Read More</a>
+    <hr>
+    <span class="badge badge-secondary">Subreddit: ${post.subreddit}</span>
+    <span class="badge badge-dark">Score: ${post.score}</span>
   </div>
 </div>`;
     });

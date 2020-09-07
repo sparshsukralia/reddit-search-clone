@@ -164,7 +164,9 @@ searchForm.addEventListener("submit", function (e) {
     var output = "<div class='card-columns'>"; // Loop through the reddit posts
 
     results.forEach(function (post) {
-      output += "<div class=\"card\">\n  <img src=\"...\" class=\"card-img-top\" alt=\"...\">\n  <div class=\"card-body\">\n    <h5 class=\"card-title\">".concat(post.title, "</h5>\n    <p class=\"card-text\">").concat(truncateText(post.selftext, 100) + "...", "</p>\n    <a href=\"#\" class=\"btn btn-primary\">Go somewhere</a>\n  </div>\n</div>");
+      // Check if image is availabe
+      var image = post.preview ? post.preview.images[0].source.url : "https://lh3.googleusercontent.com/8Vw-7MAm558750a4M55fiOlUf7lP2cYnFuqSWynrygIiyEEiQQDa_xxHKYOX83L0UD2T";
+      output += "<div class=\"card\">\n  <img src=\"".concat(image, "\" class=\"card-img-top\" alt=\"...\">\n  <div class=\"card-body\">\n    <h5 class=\"card-title\">").concat(post.title, "</h5>\n    <p class=\"card-text\">").concat(truncateText(post.selftext, 100) + "...", "</p>\n    <a href=\"").concat(post.url, "\" target=\"_blank\" class=\"btn btn-primary\">Read More</a>\n    <hr>\n    <span class=\"badge badge-secondary\">Subreddit: ").concat(post.subreddit, "</span>\n    <span class=\"badge badge-dark\">Score: ").concat(post.score, "</span>\n  </div>\n</div>");
     });
     output += "</div>";
     document.getElementById("results").innerHTML = output;
