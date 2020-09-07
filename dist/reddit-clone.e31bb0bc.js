@@ -117,7 +117,32 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"index.js":[function(require,module,exports) {
+})({"redditapi.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = redditapi;
+
+function redditapi(searchTerm, searchLimit, sortBy) {
+  return fetch("http://www.reddit.com/search.json?q=".concat(searchTerm, "&sort=").concat(sortBy, "&limit=").concat(searchLimit)).then(function (res) {
+    return res.json();
+  }).then(function (data) {
+    return data.data.children.map(function (data) {
+      return data.data;
+    });
+  }).catch(function (err) {
+    return console.log(err);
+  });
+}
+},{}],"index.js":[function(require,module,exports) {
+"use strict";
+
+var _redditapi = _interopRequireDefault(require("./redditapi"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var searchForm = document.getElementById("search-form");
 var searchInput = document.getElementById("search-input");
 searchForm.addEventListener("submit", function (e) {
@@ -132,8 +157,20 @@ searchForm.addEventListener("submit", function (e) {
   if (searchTerm == "") {
     // Alert message
     showMessage("Please add a search term", "alert-danger");
-  }
+  } // Reddit Search
 
+
+  (0, _redditapi.default)(searchTerm, searchLimit, sortBy).then(function (results) {
+    var output = "<div class='card-columns'>"; // Loop through the reddit posts
+
+    results.forEach(function (post) {
+      output += "<div class=\"card\">\n  <img src=\"...\" class=\"card-img-top\" alt=\"...\">\n  <div class=\"card-body\">\n    <h5 class=\"card-title\">Card title</h5>\n    <p class=\"card-text\">Some quick example text to build on the card title and make up the bulk of the card's content.</p>\n    <a href=\"#\" class=\"btn btn-primary\">Go somewhere</a>\n  </div>\n</div>";
+    });
+    output += "</div>";
+    document.getElementById("results").innerHTML = output;
+  }); // Clear the search input
+
+  searchInput.value = "";
   e.preventDefault();
 }); // showMessage function
 
@@ -155,7 +192,7 @@ function showMessage(message, className) {
     document.querySelector(".alert").remove();
   }, 3000);
 }
-},{}],"../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./redditapi":"redditapi.js"}],"../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
